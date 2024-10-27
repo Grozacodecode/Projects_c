@@ -70,9 +70,10 @@ bool isTextFile(const char *filename) {
 int main (int argc, char **argv) {
    
    char a;
+   char b;
    printf("Введите какой символ хотите заменить: ");
-   scanf("%d", &age);
-   printf("Ваш возраст: %d\n", age);
+   scanf("%d", &a);
+   printf("Ваш возраст: %d\n", a);
 
 
 
