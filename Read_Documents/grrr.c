@@ -71,8 +71,8 @@ int main (int argc, char **argv) {
    
    char a;
    printf("Введите какой символ хотите заменить: ");
-   scanf("%d", &age);
-   printf("Ваш возраст: %d\n", age);
+   scanf("%d", &a);
+   printf("Ваш возраст: %d\n", a);
 
 
 
