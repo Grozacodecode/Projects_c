@@ -1,17 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
 #include <shlwapi.h>
 #include <stdbool.h>
-#include <winbase.h>
+
 
 #define BUFFER_SIZE 4096
 
-#ifndef CSIDL_PERSONAL
-#define CSIDL_PERSONAL 0x0005
-#endif
 
-#include <shlobj.h>
 
 bool isTextFile(const char *filename) {
     // Список разрешенных расширений
@@ -91,7 +86,7 @@ int main (int argc, char **argv) {
    char buffer[BUFFER_SIZE];
    char fileName[MAX_PATH];
    char exeDir[MAX_PATH];
-   int partNumber = 1;
+   
    size_t bytesRead;
 
             // Получаем путь к директории с исполняемым файлом
