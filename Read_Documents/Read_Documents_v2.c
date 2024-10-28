@@ -57,9 +57,6 @@ bool isTextFile(const char *filename) {
 }
 
 int main (int argc, char **argv) {
-    
-    char symbol;
-    char symbol_v2;
 
     if (argc > 1) {
         printf("Переданный файл: %s\n", argv[1]);
