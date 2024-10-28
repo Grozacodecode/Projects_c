@@ -79,91 +79,87 @@ int main (int argc, char **argv) {
 	
 
    if (isTextFile(argv[1])) 
-      {
-         printf("Файл %s является текстовым.\n", argv[1]);
-        
-         FILE *inputFile;
-         FILE *outputFile;
-         char buffer[BUFFER_SIZE];
-         char fileName[MAX_PATH];
-         char exeDir[MAX_PATH];
-         int partNumber = 1;
-         size_t bytesRead;
+   {
+      printf("Файл %s является текстовым.\n", argv[1]);
+   } else 
+   {
+      printf("Файл %s не является текстовым.\n", argv[1]);
+   }
+
+   FILE *inputFile;
+   FILE *outputFile;
+   char buffer[BUFFER_SIZE];
+   char fileName[MAX_PATH];
+   char exeDir[MAX_PATH];
+   int partNumber = 1;
+   size_t bytesRead;
 
             // Получаем путь к директории с исполняемым файлом
-         GetModuleFileName(NULL, exeDir, MAX_PATH);
-         PathRemoveFileSpec(exeDir);
+   GetModuleFileName(NULL, exeDir, MAX_PATH);
+   PathRemoveFileSpec(exeDir);
 
            
-         inputFile = fopen(argv[1], "rb");
-         if (inputFile == NULL) 
-         {
-            printf("Не удалось открыть входной файл.\n");
-            perror("Ошибка открытия файла");
-            return 1;
-         }
+         
+   inputFile = fopen(argv[1], "rb");
+   if (inputFile == NULL) 
+   {
+      printf("Не удалось открыть входной файл.\n");
+      perror("Ошибка открытия файла");
+      return 1;
+   }
             
          
       
-         while ((bytesRead = fread(buffer, 1, BUFFER_SIZE, inputFile)) > 0) 
-         {
-            snprintf(fileName, sizeof(fileName), "%s/part_%d.txt", exeDir, partNumber);
-            outputFile = fopen(fileName, "wb");
-         }
+   while ((bytesRead = fread(buffer, 1, BUFFER_SIZE, inputFile)) > 0) 
+   {
+      snprintf(fileName, sizeof(fileName), "%s/part_%d.txt", exeDir, partNumber);
+      outputFile = fopen(fileName, "wb");
+   }
 
-         if (outputFile == NULL) 
-            {
-            printf("Не удалось создать выходной файл %s.\n", fileName);
-            fclose(inputFile);
-            return 1;
-            }
+   if (outputFile == NULL) 
+   {
+      printf("Не удалось создать выходной файл %s.\n", fileName);
+      fclose(inputFile);
+      return 1;
+   }
 
-         fwrite(buffer, 1, bytesRead, outputFile);
-         fclose(outputFile);
-         partNumber++;
+   fwrite(buffer, 1, bytesRead, outputFile);
+   fclose(outputFile);
+   partNumber++;
 
-         for (int i = 1; i < partNumber; i++) 
-         {
-            snprintf(fileName, sizeof(fileName), "%s/part_%d.txt", exeDir, i);
-            FILE *file = fopen(fileName, "rb+");
-            if (file == NULL) 
-            {
-               printf("Не удалось открыть файл %s для изменения.\n", fileName);
-               continue;
-            }
+   for (int i = 1; i < partNumber; i++) 
+   {
+      snprintf(fileName, sizeof(fileName), "%s/part_%d.txt", exeDir, i);
+      FILE *file = fopen(fileName, "rb+");
+      if (file == NULL) 
+      {
+         printf("Не удалось открыть файл %s для изменения.\n", fileName);
+         continue;
+      }
 
          // Читаем содержимое файла
-            char fileContent[BUFFER_SIZE];
+      char fileContent[BUFFER_SIZE];
          
-            fseek(file, 0, SEEK_SET);
+      fseek(file, 0, SEEK_SET);
 
-            size_t bytesRead = fread(fileContent, 1, BUFFER_SIZE, file);
+      size_t bytesRead = fread(fileContent, 1, BUFFER_SIZE, file);
          
-            for (size_t j = 0; j < bytesRead; j++) 
-            {
-               if (fileContent[j] == ' ') 
-               {
-                  fileContent[j] = '_';
-               }
-            }
+      for (size_t j = 0; j < bytesRead; j++) 
+      {
+         if (fileContent[j] == ' ') 
+         {
+            fileContent[j] = '_';
+         }
+      }
          
          
          // Перемещаем указатель файла в начало
          
-         fseek(file, 0, SEEK_SET);
+      fseek(file, 0, SEEK_SET);
          // Записываем измененное содержимое обратно в файл
-         fwrite(fileContent, 1, bytesRead, file);
+      fwrite(fileContent, 1, bytesRead, file);
          
-         fclose(file);
-         }
-      
-
-      } 
-      
-      else 
-      {
-         printf("Файл %s не является текстовым.\n", argv[1]);
-      }
-   
+      fclose(file);
+   }
    return 0;
 }
