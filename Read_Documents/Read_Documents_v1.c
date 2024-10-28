@@ -86,7 +86,7 @@ int main (int argc, char **argv) {
    char buffer[BUFFER_SIZE];
    char fileName[MAX_PATH];
    char exeDir[MAX_PATH];
-   
+   int partNumber = 1;
    size_t bytesRead;
 
             // Получаем путь к директории с исполняемым файлом
