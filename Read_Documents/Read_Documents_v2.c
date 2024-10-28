@@ -89,8 +89,8 @@ int main (int argc, char **argv) {
 
     while ((bytesRead = fread(buffer, 1, BUFFER_SIZE, inputFile)) > 0) {
         for (size_t j = 0; j < bytesRead; j++) {
-            if (buffer[j] == symbol) {
-                buffer[j] = symbol_v2;
+            if (buffer[j] == " ") {
+                buffer[j] = "_";
             }
         }
 
