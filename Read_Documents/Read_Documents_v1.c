@@ -109,6 +109,9 @@ int main (int argc, char **argv) {
    {
       snprintf(fileName, sizeof(fileName), "%s/part_%d.txt", exeDir, partNumber);
       outputFile = fopen(fileName, "wb");
+      fwrite(buffer, 1, bytesRead, outputFile);
+      fclose(outputFile);
+      partNumber++;
    }
 
    if (outputFile == NULL) 
@@ -118,9 +121,6 @@ int main (int argc, char **argv) {
       return 1;
    }
 
-   fwrite(buffer, 1, bytesRead, outputFile);
-   fclose(outputFile);
-   partNumber++;
 
    for (int i = 1; i < partNumber; i++) 
    {
