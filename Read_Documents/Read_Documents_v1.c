@@ -70,10 +70,15 @@ bool isTextFile(const char *filename) {
 int main (int argc, char **argv) {
    
   
-    if (argc > 1) {
-      printf("Переданный файл: %s\n", argv[1]);
+   if (argc > 1) {
+    printf("Переданный файл: %s\n", argv[1]);
+   } else {
+    printf("Файл не указан.\n");
+    return 1;
+   }
+	
 
-      if (isTextFile(argv[1])) 
+   if (isTextFile(argv[1])) 
       {
          printf("Файл %s является текстовым.\n", argv[1]);
         
@@ -98,17 +103,20 @@ int main (int argc, char **argv) {
             return 1;
          }
             
+         
+      
          while ((bytesRead = fread(buffer, 1, BUFFER_SIZE, inputFile)) > 0) 
          {
             snprintf(fileName, sizeof(fileName), "%s/part_%d.txt", exeDir, partNumber);
             outputFile = fopen(fileName, "wb");
-            if (outputFile == NULL) 
+         }
+
+         if (outputFile == NULL) 
             {
             printf("Не удалось создать выходной файл %s.\n", fileName);
             fclose(inputFile);
             return 1;
             }
-         }
 
          fwrite(buffer, 1, bytesRead, outputFile);
          fclose(outputFile);
@@ -116,28 +124,28 @@ int main (int argc, char **argv) {
 
          for (int i = 1; i < partNumber; i++) 
          {
-         snprintf(fileName, sizeof(fileName), "%s/part_%d.txt", exeDir, i);
-         FILE *file = fopen(fileName, "rb+");
-         if (file == NULL) 
-         {
-            printf("Не удалось открыть файл %s для изменения.\n", fileName);
-            continue;
-         }
+            snprintf(fileName, sizeof(fileName), "%s/part_%d.txt", exeDir, i);
+            FILE *file = fopen(fileName, "rb+");
+            if (file == NULL) 
+            {
+               printf("Не удалось открыть файл %s для изменения.\n", fileName);
+               continue;
+            }
 
          // Читаем содержимое файла
-         char fileContent[BUFFER_SIZE];
+            char fileContent[BUFFER_SIZE];
          
-         fseek(file, 0, SEEK_SET);
+            fseek(file, 0, SEEK_SET);
 
-         size_t bytesRead = fread(fileContent, 1, BUFFER_SIZE, file);
+            size_t bytesRead = fread(fileContent, 1, BUFFER_SIZE, file);
          
-         for (size_t j = 0; j < bytesRead; j++) 
-         {
-            if (fileContent[j] == ' ') 
+            for (size_t j = 0; j < bytesRead; j++) 
             {
-                fileContent[j] = '_';
+               if (fileContent[j] == ' ') 
+               {
+                  fileContent[j] = '_';
+               }
             }
-         }
          
          
          // Перемещаем указатель файла в начало
@@ -153,19 +161,9 @@ int main (int argc, char **argv) {
       } 
       
       else 
-         {
-            printf("Файл %s не является текстовым.\n", argv[1]);
-         }
-   }
-
-   else 
-
-
-   {
-      printf("Файл не указан.\n");
-      return 1;
-   }
-
-
+      {
+         printf("Файл %s не является текстовым.\n", argv[1]);
+      }
+   
    return 0;
 }
