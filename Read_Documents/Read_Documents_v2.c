@@ -57,6 +57,10 @@ bool isTextFile(const char *filename) {
 }
 
 int main (int argc, char **argv) {
+    
+    char symbol;
+    char symbol_v2;
+
     if (argc > 1) {
         printf("Переданный файл: %s\n", argv[1]);
     } else {
@@ -88,8 +92,8 @@ int main (int argc, char **argv) {
 
     while ((bytesRead = fread(buffer, 1, BUFFER_SIZE, inputFile)) > 0) {
         for (size_t j = 0; j < bytesRead; j++) {
-            if (buffer[j] == ' ') {
-                buffer[j] = '_';
+            if (buffer[j] == symbol) {
+                buffer[j] = symbol_v2;
             }
         }
 
