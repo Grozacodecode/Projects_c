@@ -1,17 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <windows.h>
 #include <shlwapi.h>
 #include <stdbool.h>
-#include <winbase.h>
+
 
 #define BUFFER_SIZE 4096
 
-#ifndef CSIDL_PERSONAL
-#define CSIDL_PERSONAL 0x0005
-#endif
 
-#include <shlobj.h>
 
 bool isTextFile(const char *filename) {
     // Список разрешенных расширений
